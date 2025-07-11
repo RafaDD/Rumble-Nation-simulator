@@ -15,7 +15,7 @@ import torch
 warnings.filterwarnings('ignore')
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
-def parallel_sim(game, player_id, action):
+def parallel_sim(game, player_id, search_time, action):
     points = []
     cnt = 0
     t1 = time.time()
@@ -35,7 +35,7 @@ def parallel_sim(game, player_id, action):
         cnt += 1
 
         t = time.time()
-        if (t - t1) >= 1:
+        if (t - t1) >= search_time:
             break
     return np.mean(points)
 
@@ -61,6 +61,8 @@ def parse_args():
     parser.add_argument('--stage', type=int, default=0)
     parser.add_argument('--random_sim', type=float, default=1.0)
     parser.add_argument('--explore', type=float, default=0.5)
+    parser.add_argument('--round', type=int, default=10)
+    parser.add_argument('--search_time', type=float, default=1.0)
 
     args = parser.parse_args()
     return args
@@ -106,7 +108,7 @@ def main():
 
     res_list = []
     buffer_size = [0, 0, 0, 0]
-    sim_round = 1000
+    sim_round = args.round
     for i in trange(sim_round, ncols=100):
         gt = []
         state = []
@@ -125,7 +127,7 @@ def main():
                         game.players[k].epsilon = args.random_sim
 
                     with mp.Pool(processes=4) as pool:
-                        func = partial(parallel_sim, game, j)
+                        func = partial(parallel_sim, game, j, args.search_time)
                         point = pool.map(func, range(33))
                     
                     point = np.array(point)
@@ -140,20 +142,20 @@ def main():
             res = game.get_current_score()
             print(res)
 
-        for j in range(n_players):
-            buffer_s = game.players[j].get_buffer()
-            points_arr = np.array(points)
-            if len(buffer_s) <= len(points_arr):
-                 points_subset = points_arr[:len(buffer_s)]
-            else:
-                 points_subset = points_arr
-                 
-            graph = game.get_graph()
-            graph = np.tile(graph, (len(buffer_s), 1, 1))
+            for j in range(n_players):
+                buffer_s = game.players[j].get_buffer()
+                points_arr = np.array(points)
+                if len(buffer_s) <= len(points_arr):
+                    points_subset = points_arr[:len(buffer_s)]
+                else:
+                    points_subset = points_arr
+                    
+                graph = game.get_graph()
+                graph = np.tile(graph, (len(buffer_s), 1, 1))
 
-            state.append(buffer_s)
-            gt.append(points_subset)
-            net.append(graph)
+                state.append(buffer_s)
+                gt.append(points_subset)
+                net.append(graph)
 
         res_list.append(res)
 
