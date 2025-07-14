@@ -12,7 +12,7 @@ import warnings
 import cv2
 
 warnings.filterwarnings('ignore')
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 def simulate(game, player_id, search_time, action):
     points = []
@@ -38,7 +38,7 @@ def simulate(game, player_id, search_time, action):
         t = time.time()
         if (t - t1) >= search_time:
             break
-    return np.array(points)
+    return np.array(points), cnt
 
 def search(game, player_id, search_time):
     with mp.Pool(processes=4) as pool:
@@ -72,20 +72,20 @@ def play(game, which_ai, player_names):
                 game.players[player_id].random = False
                 
                 search_result, search_times = search(game, player_id, 5)
-                print(search_result.reshape(11, 3))
+                # print(search_result.reshape(11, 3))
                 
                 print(f"Step {agent_cnt // game.player_num}, avg search times : {np.mean(search_times):.1f}")
                 p, success = game.step(player_id=player_id, by_search=True, search_result=search_result, verbose=True)
             else:
                 p, success = game.step(player_id=player_id, verbose=True)
 
-            p = game.v2p[p[0]]
+            p = p[0]
             
-        score = game.get_current_score()
-        flag = game.terminal()
-        for k in range(game.player_num):
-            print(f"Player {k+1} remain {game.players[k].soldiers:.0f} soldiers")
-        draw_map(game.values, game.cnt, player_names, [p, player_id], score)
+            score = game.get_current_score()
+            flag = game.terminal()
+            for k in range(game.player_num):
+                print(f"Player {k+1} remain {game.players[k].soldiers:.0f} soldiers")
+            draw_map(game.values, game.cnt, player_names, [p, player_id], score)
         
         agent_cnt += 1
         
@@ -138,17 +138,14 @@ def draw_map(values, state, player_names, highlight=[], score=[]):
         
     idx = 0
     for pos, s in zip(positions, state):
-        if idx == 0 or idx == 4:
-            pos = (pos[0] - 80, pos[1] - 30)
-        else:
-            pos = (pos[0] - 20, pos[1] - 30)
+        pos = (pos[0] - 20, pos[1] - 30)
         for i in range(len(s)-1, -1, -1):
             text = f"{player_names[i]}: {s[i]:.0f}"
             if len(highlight) != 0 and idx == highlight[0] and i == highlight[1]:
                 cv2.putText(image, text, pos, font, 0.7, colors[-1], 2, cv2.LINE_AA)
             else:
                 cv2.putText(image, text, pos, font, 0.7, colors[i+1], 2, cv2.LINE_AA)
-            pos = (pos[0], pos[1] - 20)
+            pos = (pos[0], pos[1] - 25)
         idx += 1
         
     pos = (9, 28)
@@ -170,7 +167,7 @@ if __name__ == '__main__':
     player_names = input("Set player name (separate by ,) : ").split(',')
     
     best_model_config = find_best(stage, n_players).loc[0]
-    model_name = f'../mdtx-noguess/model_offline/{stage}-{n_players}/{best_model_config["model_dir"]}/best_model.pth'
+    model_name = f'./model_offline/{stage}-{n_players}/{best_model_config["model_dir"]}/best_model.pth'
     
     players = []
     for i in range(n_players):

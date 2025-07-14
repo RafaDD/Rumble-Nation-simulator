@@ -69,11 +69,14 @@ def main():
                                   embed_dim=args.embed_dim,
                                   nlayers=args.nlayer,
                                   gcn=args.gcn).to(device)
-        lr = 5e-4
+        lr = 1e-3
 
-    optim = torch.optim.Adam(model.parameters(),
+    optim = torch.optim.AdamW(model.parameters(),
                              lr=lr,
                              weight_decay=1e-4)
+    scheduler = torch.optim.lr_scheduler.StepLR(optim,
+                                                step_size=300,
+                                                gamma=0.1)
     criterion = nn.MSELoss()
 
     data_file = f"./buffer/{args.stage}-{args.player_num}/data.npz"
@@ -81,13 +84,13 @@ def main():
     seq = torch.randperm(length)
 
     train_dataset = game_dataset(file=data_file,
-                                 mode='train',
+                                 mode='all',
                                  n_player=args.player_num,
                                  seq=seq,
                                  min=args.min,
                                  max=args.max)
     test_dataset = game_dataset(file=data_file,
-                                mode='test',
+                                mode='all',
                                 n_player=args.player_num,
                                 seq=seq,
                                 min=args.min,
@@ -96,12 +99,12 @@ def main():
     train_loader = DataLoader(dataset=train_dataset,
                               batch_size=args.bs,
                               shuffle=True,
-                              num_workers=16,
+                              num_workers=0,
                               drop_last=True)
     test_loader = DataLoader(dataset=test_dataset,
                              batch_size=2048,
                              shuffle=False,
-                             num_workers=16,
+                             num_workers=0,
                              drop_last=False)
 
     best_loss = 9999999
@@ -143,6 +146,8 @@ def main():
                 best_loss = test_total_loss
                 torch.save(model.state_dict(), os.path.join(log_dir, 'best_model.pth'))
                 save_print(log_file, f"Best model saved.")
+        
+        scheduler.step()
 
     args.test_loss = best_loss
     args_dict = vars(args)

@@ -135,7 +135,7 @@ def main():
 
                     game.players[j].epsilon = args.explore
 
-                    game.step(j, by_search=True, search_result=point, verbose=True)
+                    game.step(j, by_search=True, search_result=point, verbose=False)
 
                     flag = game.terminal()
 

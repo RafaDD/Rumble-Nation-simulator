@@ -14,7 +14,7 @@ import warnings
 import argparse
 
 warnings.filterwarnings('ignore')
-os.environ['CUDA_VISIBLE_DEVICES'] = '1'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
 def save_print(log_file, text):
     with open(log_file, 'a') as f:
@@ -40,7 +40,7 @@ def parallel_sim(game, player_id, action):
         points.append(1 if score[player_id] == np.max(score) else 0)
         cnt += 1
         t = time.time()
-        if (t - t1) >= 3:
+        if (t - t1) >= 1:
             break
     return np.mean(points), cnt
 
@@ -63,7 +63,7 @@ def simulate(game, verbose=False, log_file=None, IsSearch=False, test_id=0):
         player_id = agent_cnt % game.player_num
         if game.players[player_id].soldiers > 0:
             if IsSearch and player_id == test_id:
-                search_result, search_times = search(game)
+                search_result, search_times = search(game, player_id)
                 save_print(log_file, f"Step {agent_cnt // game.player_num}, avg search times : {np.mean(search_times):.1f}")
                 game.step(player_id=player_id, by_search=True, search_result=search_result, verbose=True)
             else:
@@ -144,6 +144,7 @@ if __name__ == '__main__':
 
     game = Game(players, args.dice)
     res_list = main(game, sim_round=simround, log_file=log_file, IsSearch=IsSearch, test_id=args.test_id)
+    np.save(f'./result/{datetime_str}/result.npy', res_list)
     ranking = np.argsort(res_list, axis=1)[:, -1]
 
     res_list = np.mean(res_list, axis=0)

@@ -17,7 +17,7 @@ class Player:
                                            nlayers=model_config["nlayer"],
                                            gcn=model_config["gcn"]).cuda()
             self.buffer_s = []
-            self.threshold = 0.8
+            self.threshold = 0.7
             self.all_prob = []
             for i in range(6):
                 for j in range(6):
@@ -58,7 +58,7 @@ class Player:
 
                     return action, reroll
 
-                out = self.model(torch.cat([s, v], dim=-1), network).detach().cpu().numpy()
+                out = self.model(torch.cat([s, v], dim=-1), network).detach().cpu().numpy() / 4 + 1 / self.player_num
                 reroll, thresh = self.check_reroll(out, ops)
                 action = np.argmax(out[ops])
 
@@ -122,7 +122,7 @@ class Player:
     def check_reroll(self, score, ops):
         each_condition_best = self.check_best_condition(score)
         thresh = np.sort(each_condition_best)[int(216 * self.threshold)]
-        thresh = max(thresh, 0.1)
+        thresh = min(max(thresh, 0.1), 0.8)
         
         reroll = False
         if np.max(score[ops]) < thresh:
