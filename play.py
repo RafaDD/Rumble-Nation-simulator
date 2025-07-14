@@ -24,8 +24,11 @@ def simulate(game, player_id, search_time, action):
         for i in range(n_players):
             if i != player_id:
                 game_sim.players[i].player_type = 'agent'
-        game_sim.step(player_id, action)
+        
+        if action != -1:
+            game_sim.step(player_id, action)
         idx = (player_id + 1) % n_players
+        
         while True:
             game_sim.step(idx)
             idx = (idx + 1) % n_players
@@ -39,6 +42,24 @@ def simulate(game, player_id, search_time, action):
         if (t - t1) >= search_time:
             break
     return np.array(points), cnt
+
+
+def judge(game, player_id, search_time):
+    with mp.Pool(processes=4) as pool:
+        func = partial(simulate, game, player_id, search_time)
+        result = pool.map(func, [-1] * 4)
+
+    sim_points, search_times = zip(*result)
+    sim_points = np.concatenate(sim_points, axis=0)
+    search_times = np.sum(search_times)
+
+    ranking = np.argsort(sim_points, axis=1)[:, -1]
+    winrate = []
+    for i in range(len(players)):
+        winrate.append(np.where(ranking == i)[0].shape[0] / ranking.shape[0])
+
+    return winrate, search_times
+
 
 def search(game, player_id, search_time):
     with mp.Pool(processes=4) as pool:
@@ -71,7 +92,7 @@ def play(game, which_ai, player_names):
                     game.players[k].random = True
                 game.players[player_id].random = False
                 
-                search_result, search_times = search(game, player_id, 5)
+                search_result, search_times = search(game, player_id, 8)
                 # print(search_result.reshape(11, 3))
                 
                 print(f"Step {agent_cnt // game.player_num}, avg search times : {np.mean(search_times):.1f}")
@@ -80,6 +101,11 @@ def play(game, which_ai, player_names):
                 p, success = game.step(player_id=player_id, verbose=True)
 
             p = p[0]
+
+            winrate,search_times = judge(game, player_id, 5)
+            for i in range(n_players):
+                print(f"{player_names[i]}:{winrate[i]*100:.2f} %")
+            print(f"by {search_times} searches")
             
             score = game.get_current_score()
             flag = game.terminal()
