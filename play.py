@@ -22,8 +22,7 @@ def simulate(game, player_id, search_time, action):
     while True:
         game_sim = deepcopy(game)
         for i in range(n_players):
-            if i != player_id:
-                game_sim.players[i].player_type = 'agent'
+            game_sim.players[i].player_type = 'agent'
         
         if action != -1:
             game_sim.step(player_id, action)
