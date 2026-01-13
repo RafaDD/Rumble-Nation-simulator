@@ -91,8 +91,7 @@ def play(game, which_ai, player_names):
                     game.players[k].random = True
                 game.players[player_id].random = False
                 
-                search_result, search_times = search(game, player_id, 8)
-                # print(search_result.reshape(11, 3))
+                search_result, search_times = search(game, player_id, 10)
                 
                 print(f"Step {agent_cnt // game.player_num}, avg search times : {np.mean(search_times):.1f}")
                 p, success = game.step(player_id=player_id, by_search=True, search_result=search_result, verbose=True)
@@ -101,7 +100,7 @@ def play(game, which_ai, player_names):
 
             p = p[0]
 
-            winrate,search_times = judge(game, player_id, 5)
+            winrate, search_times = judge(game, player_id, 10)
             for i in range(n_players):
                 print(f"{player_names[i]}:{winrate[i]*100:.2f} %")
             print(f"by {search_times} searches")
@@ -209,7 +208,7 @@ if __name__ == '__main__':
             
         players[i].model.load_state_dict(torch.load(model_name))
         print(f"Player {i+1} load model from {model_name}")
-        players[i].epsilon = 0.1
+        players[i].epsilon = 0.0
         players[i].random = False
         players[i].model.eval()
     

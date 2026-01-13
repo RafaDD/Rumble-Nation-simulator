@@ -86,27 +86,22 @@ class Game:
 
     def get_current_score(self, final=False):
         loc_order = np.argsort(self.values)
-        self_cnt = self.cnt.copy()
+        self_cnt = self.cnt.copy() + 0.1 * self.power_level.reshape(1, -1)
+
         self.pts = np.zeros(self.player_num)
         for loc in loc_order:
             state = self_cnt[loc]
             sorted_indices = np.argsort(state)[::-1]
-
-            for j in range(self.player_num):
-                for i in range(j+1, self.player_num):
-                    if state[sorted_indices[j]] == state[sorted_indices[i]]:
-                        if self.power_level[sorted_indices[i]] < self.power_level[sorted_indices[j]]:
-                            sorted_indices[j], sorted_indices[i] = sorted_indices[i], sorted_indices[j]
             
-            if state[sorted_indices[0]] != 0:
+            if state[sorted_indices[0]] >= 1:
                 if final:
                     print(f'player {sorted_indices[0]} win on loc {loc} with value {self.values[loc]}, loc {loc} : {state}')
                 self.pts[sorted_indices[0]] += self.values[loc]
                 for i in range(11):
-                    if self.net[loc, i] == 1 and self_cnt[i, sorted_indices[0]] != 0:
+                    if self.net[loc, i] == 1 and self_cnt[i, sorted_indices[0]] >= 1:
                         self_cnt[i, sorted_indices[0]] += 2
 
-            if state[sorted_indices[1]] != 0:
+            if state[sorted_indices[1]] >= 1:
                 self.pts[sorted_indices[1]] += np.floor(self.values[loc] / 2)
         
         return self.pts

@@ -3,21 +3,24 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class GCN(nn.Module):
-    def __init__(self, embed_dim, layers, gamma):
+    def __init__(self, embed_dim, layers):
         super().__init__()
         self.fc = nn.ModuleList([
             nn.Sequential(nn.Linear(embed_dim, embed_dim),
                           nn.ReLU()) for _ in range(layers)
         ])
-        self.gamma = gamma
+        self.norm = nn.ModuleList([
+            nn.LayerNorm(embed_dim) for _ in range(layers)
+        ])
         self.layers = layers
 
     def forward(self, x, g):
         # x : [B, N, D]
         # g : [B, N, N]
         for i in range(self.layers):
-            x = x + (self.gamma ** (i + 1)) * torch.einsum('bnk,bkd->bnd', g, x)
-            x = self.fc[i](x)
+            x = self.norm[i](x)
+            x_compute = torch.einsum('bnk,bkd->bnd', g, x)
+            x = self.fc[i](x_compute) + x
         return x
 
 class Transformer_model(nn.Module):
@@ -27,10 +30,9 @@ class Transformer_model(nn.Module):
         self.nlayers = nlayers
         self.use_gcn = gcn
 
-        self.embed = nn.Linear(2*player_num+1, embed_dim, bias=False)
+        self.embed = nn.Linear(2*player_num+12, embed_dim, bias=False)
         self.gcn = GCN(embed_dim=embed_dim,
-                       layers=3,
-                       gamma=0.3)
+                       layers=3)
         self.attn = nn.ModuleList([AttentionLayer(embed_dim=embed_dim,
                                                   num_heads=8,
                                                   dropout=0.2) for _ in range(nlayers)])
@@ -71,6 +73,8 @@ class Transformer_model(nn.Module):
         if len(net.shape) == 2:
             net = net.unsqueeze(0)
         net = net - torch.eye(11).unsqueeze(0).to(net.device)
+        cnt = torch.cat([cnt, net], dim=-1)
+
         return cnt, net
 
 class AttentionLayer(nn.Module):
@@ -82,9 +86,9 @@ class AttentionLayer(nn.Module):
                                           batch_first=True)
         self.norm_1 = nn.LayerNorm(embed_dim)
         self.norm_2 = nn.LayerNorm(embed_dim)
-        self.ffn = nn.Sequential(nn.Linear(embed_dim, 1024),
-                                 nn.GELU(),
-                                 nn.Linear(1024, embed_dim))
+        self.ffn = nn.Sequential(nn.Linear(embed_dim, 4*embed_dim),
+                                 nn.ReLU(),
+                                 nn.Linear(4*embed_dim, embed_dim))
 
     def forward(self, x):
         x_norm = self.norm_1(x)

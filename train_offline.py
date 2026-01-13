@@ -2,6 +2,7 @@ from utils.model import Transformer_model
 from utils.dataset import game_dataset
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from datetime import datetime
 from torch.utils.data import DataLoader
 import os
@@ -26,18 +27,26 @@ def set_seed(seed):
     torch.backends.cudnn.deterministic = True
     torch.backends.cudnn.benchmark = False
 
+def pairwise_rank_loss(scores, targets):
+    diff_s = scores.unsqueeze(2) - scores.unsqueeze(1)
+    diff_t = targets.unsqueeze(2) - targets.unsqueeze(1)
+    mask = diff_t > 0
+    loss = F.relu(F.relu(diff_t) - diff_s)[mask].mean()
+    return loss
+
+
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--nlayer', type=int, default=4)
+    parser.add_argument('--nlayer', type=int, default=3)
     parser.add_argument('--embed_dim', type=int, default=256)
     parser.add_argument('--gcn', type=int, default=1)
     parser.add_argument('--epochs', type=int, default=400)
     parser.add_argument('--player_num', type=int, default=2)
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--bs', type=int, default=512)
-    parser.add_argument('--min', type=float, default=0.0)
-    parser.add_argument('--max', type=float, default=1.0)
-    parser.add_argument('--stage', type=int, default=1)
+    parser.add_argument('--bs', type=int, default=128)
+    parser.add_argument('--min', type=float, default=0.05)
+    parser.add_argument('--max', type=float, default=0.9)
+    parser.add_argument('--stage', type=int, default=0)
     args = parser.parse_args()
     return args
 
@@ -63,7 +72,7 @@ def main():
                                   gcn=best_model_config["gcn"]).to(device)
         model.load_state_dict(torch.load(f"./model_offline/{stage}-{args.player_num}/{best_model_config['model_dir']}/best_model.pth"))
         print(f"load from " + f"./model_offline/{stage}-{args.player_num}/{best_model_config['model_dir']}/best_model.pth")
-        lr = 3e-4
+        lr = 1e-4
     else:
         model = Transformer_model(player_num=args.player_num,
                                   embed_dim=args.embed_dim,
@@ -75,7 +84,7 @@ def main():
                              lr=lr,
                              weight_decay=1e-4)
     scheduler = torch.optim.lr_scheduler.StepLR(optim,
-                                                step_size=300,
+                                                step_size=200,
                                                 gamma=0.1)
     criterion = nn.MSELoss()
 
@@ -118,7 +127,8 @@ def main():
             optim.zero_grad()
             state, net, gt = state.to(device), net.to(device), gt.to(device)
             pred = model(state, net)
-            loss = criterion(pred, gt)
+
+            loss = criterion(pred, gt) + pairwise_rank_loss(pred, gt)
 
             loss.backward()
             optim.step()
@@ -134,7 +144,7 @@ def main():
             for state, net, gt in test_loader:
                 state, net, gt = state.to(device), net.to(device), gt.to(device)
                 pred = model(state, net)
-                loss = criterion(pred, gt)
+                loss = criterion(pred, gt) + pairwise_rank_loss(pred, gt)
 
                 test_total_loss += loss.item()
                 idx += 1

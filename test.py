@@ -40,7 +40,7 @@ def parallel_sim(game, player_id, action):
         points.append(1 if score[player_id] == np.max(score) else 0)
         cnt += 1
         t = time.time()
-        if (t - t1) >= 1:
+        if (t - t1) >= 3:
             break
     return np.mean(points), cnt
 
@@ -96,7 +96,7 @@ def main(game, sim_round=10, log_file=None, IsSearch=False, test_id=0):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--player_num', type=int, default=2)
-    parser.add_argument('--stage', type=int, default=1)
+    parser.add_argument('--stage', type=int, default=0)
     parser.add_argument('--round', type=int, default=1000)
     parser.add_argument('--search', type=int, default=0)
     parser.add_argument('--test_id', type=int, default=0)
