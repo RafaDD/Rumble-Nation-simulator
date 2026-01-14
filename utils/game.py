@@ -12,6 +12,7 @@ class Game:
         self.player_num = len(players)
         self.players = players
         self.dice = dice
+        self.last_dice_values = None  # Store last rolled dice values (0-5, representing 1-6)
         self.reset()
 
     def reset(self):
@@ -79,11 +80,30 @@ class Game:
 
     def roll_dice(self):
         dice = [np.random.randint(6) for i in range(3)]
+        self.last_dice_values = dice  # Store dice values (0-5, representing 1-6)
         res = np.array([[dice[0] + dice[1], dice[2] // 2],
                         [dice[0] + dice[2], dice[1] // 2],
                         [dice[2] + dice[1], dice[0] // 2]])
         return res
 
+    def get_node_winners(self):
+        loc_order = np.argsort(self.values)
+        self_cnt = self.cnt.copy() + 0.1 * self.power_level.reshape(1, -1)
+        
+        node_winners = np.full(11, -1, dtype=int)  # -1 means no winner
+        
+        for loc in loc_order:
+            state = self_cnt[loc]
+            sorted_indices = np.argsort(state)[::-1]
+
+            if state[sorted_indices[0]] >= 1:
+                node_winners[loc] = sorted_indices[0]
+                for i in range(11):
+                    if self.net[loc, i] == 1 and self_cnt[i, sorted_indices[0]] >= 1:
+                        self_cnt[i, sorted_indices[0]] += 2
+        
+        return node_winners
+    
     def get_current_score(self, final=False):
         loc_order = np.argsort(self.values)
         self_cnt = self.cnt.copy() + 0.1 * self.power_level.reshape(1, -1)

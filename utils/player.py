@@ -58,7 +58,8 @@ class Player:
 
                     return action, reroll
 
-                out = self.model(torch.cat([s, v], dim=-1), network).detach().cpu().numpy() / 4 + 1 / self.player_num
+                with torch.no_grad():
+                    out = self.model(torch.cat([s, v], dim=-1), network).cpu().numpy() / 4 + 1 / self.player_num
                 reroll, thresh = self.check_reroll(out, ops, policy=False)
                 action = np.argmax(out[ops])
 
@@ -78,7 +79,8 @@ class Player:
 
                     return action, False
 
-                out = self.model(torch.cat([s, v], dim=-1), network).detach().cpu().numpy()
+                with torch.no_grad():   
+                    out = self.model(torch.cat([s, v], dim=-1), network).cpu().numpy()
                 action = np.argmax(out)
 
                 return action, False

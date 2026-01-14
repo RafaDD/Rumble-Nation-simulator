@@ -1,0 +1,211 @@
+Epoch [1/400], Train Loss: 1.4753
+Epoch [1/400], Eval Loss: 0.7623
+Best model saved.
+Epoch [6/400], Train Loss: 0.6758
+Epoch [6/400], Eval Loss: 0.6470
+Best model saved.
+Epoch [11/400], Train Loss: 0.6403
+Epoch [11/400], Eval Loss: 0.6199
+Best model saved.
+Epoch [16/400], Train Loss: 0.6077
+Epoch [16/400], Eval Loss: 0.5795
+Best model saved.
+Epoch [21/400], Train Loss: 0.5778
+Epoch [21/400], Eval Loss: 0.5344
+Best model saved.
+Epoch [26/400], Train Loss: 0.5503
+Epoch [26/400], Eval Loss: 0.4849
+Best model saved.
+Epoch [31/400], Train Loss: 0.5342
+Epoch [31/400], Eval Loss: 0.4543
+Best model saved.
+Epoch [36/400], Train Loss: 0.4988
+Epoch [36/400], Eval Loss: 0.4186
+Best model saved.
+Epoch [41/400], Train Loss: 0.4720
+Epoch [41/400], Eval Loss: 0.3937
+Best model saved.
+Epoch [46/400], Train Loss: 0.4448
+Epoch [46/400], Eval Loss: 0.3420
+Best model saved.
+Epoch [51/400], Train Loss: 0.3906
+Epoch [51/400], Eval Loss: 0.2880
+Best model saved.
+Epoch [56/400], Train Loss: 0.3429
+Epoch [56/400], Eval Loss: 0.2521
+Best model saved.
+Epoch [61/400], Train Loss: 0.3078
+Epoch [61/400], Eval Loss: 0.2253
+Best model saved.
+Epoch [66/400], Train Loss: 0.2802
+Epoch [66/400], Eval Loss: 0.2039
+Best model saved.
+Epoch [71/400], Train Loss: 0.2546
+Epoch [71/400], Eval Loss: 0.1760
+Best model saved.
+Epoch [76/400], Train Loss: 0.2230
+Epoch [76/400], Eval Loss: 0.1561
+Best model saved.
+Epoch [81/400], Train Loss: 0.2126
+Epoch [81/400], Eval Loss: 0.1504
+Best model saved.
+Epoch [86/400], Train Loss: 0.1957
+Epoch [86/400], Eval Loss: 0.1365
+Best model saved.
+Epoch [91/400], Train Loss: 0.1904
+Epoch [91/400], Eval Loss: 0.1288
+Best model saved.
+Epoch [96/400], Train Loss: 0.1691
+Epoch [96/400], Eval Loss: 0.1179
+Best model saved.
+Epoch [101/400], Train Loss: 0.1595
+Epoch [101/400], Eval Loss: 0.1163
+Best model saved.
+Epoch [106/400], Train Loss: 0.1511
+Epoch [106/400], Eval Loss: 0.1098
+Best model saved.
+Epoch [111/400], Train Loss: 0.1787
+Epoch [111/400], Eval Loss: 0.1310
+Epoch [116/400], Train Loss: 0.1665
+Epoch [116/400], Eval Loss: 0.1162
+Epoch [121/400], Train Loss: 0.1383
+Epoch [121/400], Eval Loss: 0.1003
+Best model saved.
+Epoch [126/400], Train Loss: 0.1214
+Epoch [126/400], Eval Loss: 0.0873
+Best model saved.
+Epoch [131/400], Train Loss: 0.1128
+Epoch [131/400], Eval Loss: 0.0816
+Best model saved.
+Epoch [136/400], Train Loss: 0.1118
+Epoch [136/400], Eval Loss: 0.0805
+Best model saved.
+Epoch [141/400], Train Loss: 0.1177
+Epoch [141/400], Eval Loss: 0.0923
+Epoch [146/400], Train Loss: 0.1231
+Epoch [146/400], Eval Loss: 0.0906
+Epoch [151/400], Train Loss: 0.1172
+Epoch [151/400], Eval Loss: 0.0837
+Epoch [156/400], Train Loss: 0.1009
+Epoch [156/400], Eval Loss: 0.0772
+Best model saved.
+Epoch [161/400], Train Loss: 0.1311
+Epoch [161/400], Eval Loss: 0.0989
+Epoch [166/400], Train Loss: 0.1553
+Epoch [166/400], Eval Loss: 0.1192
+Epoch [171/400], Train Loss: 0.1588
+Epoch [171/400], Eval Loss: 0.1114
+Epoch [176/400], Train Loss: 0.1020
+Epoch [176/400], Eval Loss: 0.0796
+Epoch [181/400], Train Loss: 0.0839
+Epoch [181/400], Eval Loss: 0.0658
+Best model saved.
+Epoch [186/400], Train Loss: 0.0814
+Epoch [186/400], Eval Loss: 0.0615
+Best model saved.
+Epoch [191/400], Train Loss: 0.0827
+Epoch [191/400], Eval Loss: 0.0617
+Epoch [196/400], Train Loss: 0.0818
+Epoch [196/400], Eval Loss: 0.0660
+Epoch [201/400], Train Loss: 0.0742
+Epoch [201/400], Eval Loss: 0.0479
+Best model saved.
+Epoch [206/400], Train Loss: 0.0381
+Epoch [206/400], Eval Loss: 0.0240
+Best model saved.
+Epoch [211/400], Train Loss: 0.0322
+Epoch [211/400], Eval Loss: 0.0200
+Best model saved.
+Epoch [216/400], Train Loss: 0.0297
+Epoch [216/400], Eval Loss: 0.0177
+Best model saved.
+Epoch [221/400], Train Loss: 0.0278
+Epoch [221/400], Eval Loss: 0.0164
+Best model saved.
+Epoch [226/400], Train Loss: 0.0267
+Epoch [226/400], Eval Loss: 0.0155
+Best model saved.
+Epoch [231/400], Train Loss: 0.0260
+Epoch [231/400], Eval Loss: 0.0149
+Best model saved.
+Epoch [236/400], Train Loss: 0.0244
+Epoch [236/400], Eval Loss: 0.0142
+Best model saved.
+Epoch [241/400], Train Loss: 0.0243
+Epoch [241/400], Eval Loss: 0.0136
+Best model saved.
+Epoch [246/400], Train Loss: 0.0240
+Epoch [246/400], Eval Loss: 0.0143
+Epoch [251/400], Train Loss: 0.0224
+Epoch [251/400], Eval Loss: 0.0127
+Best model saved.
+Epoch [256/400], Train Loss: 0.0235
+Epoch [256/400], Eval Loss: 0.0136
+Epoch [261/400], Train Loss: 0.0208
+Epoch [261/400], Eval Loss: 0.0120
+Best model saved.
+Epoch [266/400], Train Loss: 0.0216
+Epoch [266/400], Eval Loss: 0.0122
+Epoch [271/400], Train Loss: 0.0208
+Epoch [271/400], Eval Loss: 0.0117
+Best model saved.
+Epoch [276/400], Train Loss: 0.0201
+Epoch [276/400], Eval Loss: 0.0122
+Epoch [281/400], Train Loss: 0.0212
+Epoch [281/400], Eval Loss: 0.0121
+Epoch [286/400], Train Loss: 0.0192
+Epoch [286/400], Eval Loss: 0.0114
+Best model saved.
+Epoch [291/400], Train Loss: 0.0189
+Epoch [291/400], Eval Loss: 0.0117
+Epoch [296/400], Train Loss: 0.0193
+Epoch [296/400], Eval Loss: 0.0109
+Best model saved.
+Epoch [301/400], Train Loss: 0.0178
+Epoch [301/400], Eval Loss: 0.0105
+Best model saved.
+Epoch [306/400], Train Loss: 0.0176
+Epoch [306/400], Eval Loss: 0.0109
+Epoch [311/400], Train Loss: 0.0173
+Epoch [311/400], Eval Loss: 0.0104
+Best model saved.
+Epoch [316/400], Train Loss: 0.0171
+Epoch [316/400], Eval Loss: 0.0102
+Best model saved.
+Epoch [321/400], Train Loss: 0.0165
+Epoch [321/400], Eval Loss: 0.0097
+Best model saved.
+Epoch [326/400], Train Loss: 0.0163
+Epoch [326/400], Eval Loss: 0.0098
+Epoch [331/400], Train Loss: 0.0164
+Epoch [331/400], Eval Loss: 0.0103
+Epoch [336/400], Train Loss: 0.0163
+Epoch [336/400], Eval Loss: 0.0119
+Epoch [341/400], Train Loss: 0.0183
+Epoch [341/400], Eval Loss: 0.0114
+Epoch [346/400], Train Loss: 0.0164
+Epoch [346/400], Eval Loss: 0.0108
+Epoch [351/400], Train Loss: 0.0159
+Epoch [351/400], Eval Loss: 0.0107
+Epoch [356/400], Train Loss: 0.0155
+Epoch [356/400], Eval Loss: 0.0104
+Epoch [361/400], Train Loss: 0.0153
+Epoch [361/400], Eval Loss: 0.0107
+Epoch [366/400], Train Loss: 0.0147
+Epoch [366/400], Eval Loss: 0.0106
+Epoch [371/400], Train Loss: 0.0149
+Epoch [371/400], Eval Loss: 0.0099
+Epoch [376/400], Train Loss: 0.0146
+Epoch [376/400], Eval Loss: 0.0088
+Best model saved.
+Epoch [381/400], Train Loss: 0.0139
+Epoch [381/400], Eval Loss: 0.0104
+Epoch [386/400], Train Loss: 0.0138
+Epoch [386/400], Eval Loss: 0.0088
+Epoch [391/400], Train Loss: 0.0130
+Epoch [391/400], Eval Loss: 0.0076
+Best model saved.
+Epoch [396/400], Train Loss: 0.0132
+Epoch [396/400], Eval Loss: 0.0093
+Epoch [400/400], Train Loss: 0.0133
+Epoch [400/400], Eval Loss: 0.0084

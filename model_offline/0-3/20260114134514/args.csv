@@ -1,0 +1,2 @@
+nlayer,embed_dim,gcn,epochs,player_num,seed,bs,min,max,stage,test_loss
+3,256,1,400,2,42,128,0.05,0.9,0,0.3828
