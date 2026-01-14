@@ -1,5 +1,6 @@
 # 天下鸣动模拟器
 
+[English README](../readme.md)
 
 ## 安装
 
@@ -31,13 +32,17 @@ python play_ui.py
 
 ### 设置界面
 
-![设置界面](../imgs/setup.png)
+<p align="center">
+  <img src="../imgs/setup.png" height="400">
+</p>
 
 设置界面允许您在开始游戏前配置游戏参数。您可以设置玩家数量、选择 AI 对手、配置 AI 行为并自定义玩家名称。
 
 ### 游戏界面
 
-![游戏界面](../imgs/gameplay.png)
+<p align="center">
+  <img src="../imgs/gameplay.png" height="450">
+</p>
 
 主游戏界面显示游戏地图、玩家信息、骰子结果和操作控件。您可以查看所有区域的当前状态、玩家得分和可用操作。
 
@@ -68,8 +73,4 @@ python play_ui.py
 详细的游戏规则，请参考：
 - [English Rules](rules_EN.md)
 - [中文规则](rules.CN.md)
-
-## 文档
-
-- [English README](../readme.md)
 

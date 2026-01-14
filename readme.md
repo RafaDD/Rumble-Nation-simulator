@@ -1,5 +1,6 @@
 # Rumble Nation Simulator
 
+[中文说明文档](docs/readme_CN.md)
 
 ## Installation
 
@@ -31,13 +32,17 @@ This will launch the setup dialog where you can configure your game before start
 
 ### Setup Screen
 
-![Setup Screen](imgs/setup.png)
+<p align="center">
+  <img src="imgs/setup.png" height="400">
+</p>
 
 The setup screen allows you to configure game parameters before starting. You can set the number of players, choose AI opponents, configure AI behavior, and customize player names.
 
 ### Gameplay Screen
 
-![Gameplay Screen](imgs/gameplay.png)
+<p align="center">
+  <img src="imgs/gameplay.png" height="450">
+</p>
 
 The main gameplay interface shows the game map, player information, dice results, and action controls. You can see the current state of all regions, player scores, and available actions.
 
@@ -68,7 +73,3 @@ For each player, you can configure:
 For detailed game rules, please refer to:
 - [English Rules](docs/rules_EN.md)
 - [中文规则](docs/rules.CN.md)
-
-## Documentation
-
-- [中文说明文档](docs/readme_CN.md)
